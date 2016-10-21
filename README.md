@@ -14,8 +14,8 @@ extern crate docker;
 
 fn main() {
     let endpoint = "/var/run/docker.sock";
-    let docker_client = docker::new_client(endpoint);
-    let mut images = docker_client::list_images();
+    let client = Docker::new(endpoint);
+    let images = client.list_images();
 }
 ```
 
