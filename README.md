@@ -12,6 +12,8 @@ documentation](https://docs.docker.com/engine/reference/api/docker_remote_api/).
 ```rust
 extern crate docker;
 
+use docker::Docker;
+
 fn main() {
     let endpoint = "/var/run/docker.sock";
     let client = Docker::new(endpoint);
