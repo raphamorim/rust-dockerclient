@@ -18,3 +18,4 @@ fn main() {
     let mut images = docker_client::list_images();
 ```
 
+Inspired by [go-dockerclient](https://github.com/fsouza/go-dockerclient)
