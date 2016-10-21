@@ -16,6 +16,7 @@ fn main() {
     let endpoint = "/var/run/docker.sock";
     let docker_client = docker::new_client(endpoint);
     let mut images = docker_client::list_images();
+}
 ```
 
 Inspired by [go-dockerclient](https://github.com/fsouza/go-dockerclient)
