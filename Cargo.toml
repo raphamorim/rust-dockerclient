@@ -1,8 +1,16 @@
 [package]
-
 name = "docker"
 version = "0.0.1"
 authors = [ "Raphael Amorim <rapha850@gmail.com>" ]
 
 [dependencies]
 hyper = "~0.7"
+rustc-serialize = "0.3"
+
+[lib]
+name = "docker"
+path = "src/lib.rs"
+
+[[bin]]
+name = "bin"
+path = "src/bin.rs"

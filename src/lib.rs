@@ -2,30 +2,33 @@
 #![crate_name = "docker"]
 
 extern crate hyper;
-use std::io::Read;
+extern crate rustc_serialize;
 
-struct Docker {
+use std::io::Read;
+use rustc_serialize::json::{self, Json};
+use std::env::{self, VarError};
+use hyper::{Client, Url};
+
+pub struct Docker {
     endpoint: &'static str
 }
 
-static mut Client : Docker = Docker {
-    endpoint: "/var/run/docker.sock"
-};
+impl Docker {
+    pub fn new(endpoint : &'static str) -> Docker {
+        Docker { endpoint: endpoint }
+    }
 
-pub fn new_client(end : &'static str) {
-    unsafe {
-        Client = Docker {
-            endpoint: end
-        };
+    pub fn list_images(&self) {
+        let api: &str = "/images/json";
+        let url = &format!("{}{}", self.endpoint, api);
+        docker_list_images(url)
     }
 }
 
-pub fn list_images() {
-    let client = hyper::Client::new();
-    let api: &str = "/images/json";
-    let url = format!("{}{}", unsafe { Client.endpoint }, api);
+fn docker_list_images(url : &str) {
+    let client = Client::new();
     println!("{}", url);
-    let mut response = match client.get(&url).send() {
+    let mut response = match client.get(url).send() {
         Ok(response) => response,
         Err(_) => panic!("Whoops."),
     };
@@ -34,6 +37,14 @@ pub fn list_images() {
         Ok(_) => (),
         Err(_) => panic!("I give up."),
     };
-    println!("buf: {}", buf);
+    // println!("{}", buf);
+    let json = Json::from_str(&buf).unwrap();
+    println!("{}", json.find_path(&["Id"]).unwrap());
 }
 
+// #[test]
+// fn main() {
+    // let endpoint = "http://127.0.0.1:5000";
+    // let client = Docker::new(endpoint);
+    // let images = client.list_images();
+// }
