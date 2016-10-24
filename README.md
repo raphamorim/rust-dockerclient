@@ -12,9 +12,13 @@ documentation](https://docs.docker.com/engine/reference/api/docker_remote_api/).
 ```rust
 extern crate docker;
 
+use docker::Docker;
+
 fn main() {
     let endpoint = "/var/run/docker.sock";
-    let docker_client = docker::new_client(endpoint);
-    let mut images = docker_client::list_images();
+    let client = Docker::new(endpoint);
+    let images = client.list_images();
+}
 ```
 
+Inspired by [go-dockerclient](https://github.com/fsouza/go-dockerclient)
